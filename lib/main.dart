@@ -1,5 +1,6 @@
-import 'package:firstapp/components/sms/add_customer_screen.dart';
+import 'package:firstapp/pages/user/add_user_screen.dart';
 import 'package:firstapp/components/sms/sms.dart';
+import 'package:firstapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/login_page.dart';
 
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: CustomerList(),
-      home: AddCustomerScreen(),
+      // home: AddCustomerScreen(),
+      home: HomePage(),
     );
   }
 }

@@ -5,17 +5,31 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class AddCustomerScreen extends StatefulWidget {
-  const AddCustomerScreen({super.key});
+class AddUserScreen extends StatefulWidget {
+  final String? id;
+  final String? name;
+  final int? age;
+  final String? role;
+
+  const AddUserScreen({super.key, this.id, this.name, this.age, this.role});
 
   @override
-  State<AddCustomerScreen> createState() => _AddCustomerScreenState();
+  State<AddUserScreen> createState() => _AddUserScreenState();
 }
 
-class _AddCustomerScreenState extends State<AddCustomerScreen> {
+class _AddUserScreenState extends State<AddUserScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _roleController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameController.text = widget.name ?? '';
+    _ageController.text = widget.age.toString() ?? '';
+    _roleController.text = widget.role ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,7 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         centerTitle: true,
-        title: const Text('Add Customer'),
+        title: const Text('Add User'),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -96,8 +110,15 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
     if (response.statusCode == 201) {
       if (kDebugMode) {
         print('Creation Success');
+        print(response.body);
       }
       showSuccessMessage('Creation Success');
+      Future.delayed(
+        const Duration(seconds: 3),
+        () {
+          Navigator.pop(context);
+        },
+      );
     } else {
       showErrorMessage('Creation Failed');
     }
@@ -110,6 +131,7 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
         style: const TextStyle(color: Colors.white),
         textAlign: TextAlign.center,
       ),
+      duration: Duration(seconds: 2),
       backgroundColor: CupertinoColors.activeGreen,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -122,6 +144,8 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
         style: const TextStyle(color: Colors.white),
         textAlign: TextAlign.center,
       ),
+      duration: Duration(seconds: 2),
+
       backgroundColor: CupertinoColors.destructiveRed,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

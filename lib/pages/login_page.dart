@@ -1,7 +1,7 @@
 import 'package:firstapp/components/my_button.dart';
 import 'package:firstapp/components/my_textfield.dart';
 import 'package:firstapp/components/square_tile.dart';
-import 'package:firstapp/pages/dashboart.dart';
+import 'package:firstapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                   // Navigate to the SecondPage when the button is pressed
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => NavigationExample()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 },
                 child: Text('Go to Second Page'),

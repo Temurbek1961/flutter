@@ -9,12 +9,13 @@ class Assets {
   static const String imagesApple = 'lib/images/apple.jpg';
   static const String imagesGoogle = 'lib/images/google.jpg';
   static const String libMain = 'lib/main.dart';
-  static const String pagesDashboart = 'lib/pages/dashboart.dart';
+  static const String pagesHomePage = 'lib/pages/home_page.dart';
+  static const String pagesHomeScreen = 'lib/pages/home_screen.dart';
   static const String pagesLoginPage = 'lib/pages/login_page.dart';
-  static const String smsCustomerAddScreen = 'lib/components/sms/add_customer_screen.dart';
   static const String smsSms = 'lib/components/sms/sms.dart';
   static const String smsSmsHistory = 'lib/components/sms/smsHistory.dart';
-  static const String userUser = 'lib/components/user/user.dart';
-  static const String userUserHistory = 'lib/components/user/userHistory.dart';
+  static const String userAddUserScreen = 'lib/pages/user/add_user_screen.dart';
+  static const String userUser = 'lib/pages/user/user.dart';
+  static const String userUserList = 'lib/pages/user/user_list.dart';
 
 }
