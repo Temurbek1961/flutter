@@ -2,20 +2,6 @@
 class Assets {
   Assets._();
 
-  static const String componentsMyButton = 'lib/components/my_button.dart';
-  static const String componentsMyTextfield = 'lib/components/my_textfield.dart';
-  static const String componentsSquareTile = 'lib/components/square_tile.dart';
-  static const String generatedAssets = 'lib/generated/assets.dart';
-  static const String imagesApple = 'lib/images/apple.jpg';
-  static const String imagesGoogle = 'lib/images/google.jpg';
-  static const String libMain = 'lib/main.dart';
-  static const String pagesHomePage = 'lib/pages/home_page.dart';
-  static const String pagesHomeScreen = 'lib/pages/home_screen.dart';
-  static const String pagesLoginPage = 'lib/pages/login_page.dart';
-  static const String smsSms = 'lib/components/sms/sms.dart';
-  static const String smsSmsHistory = 'lib/components/sms/smsHistory.dart';
-  static const String userAddUserScreen = 'lib/pages/user/add_user_screen.dart';
-  static const String userUser = 'lib/pages/user/user.dart';
-  static const String userUserList = 'lib/pages/user/user_list.dart';
+  static const String assetsGoogle = 'assets/google.svg';
 
 }

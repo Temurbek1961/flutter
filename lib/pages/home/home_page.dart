@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firstapp/pages/user/user_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,21 +26,17 @@ class _HomePageState extends State<HomePage> {
         },
         indicatorColor: Colors.amber,
         selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.supervised_user_circle),
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Platform.isIOS ? CupertinoIcons.person_2_fill : Icons.home_outlined),
             label: 'USERS',
           ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
+          const NavigationDestination(
+            icon: Icon(Icons.notifications_sharp),
             label: 'SMS',
           ),
           NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.messenger_sharp),
-            ),
+            icon: Icon(Platform.isIOS ? CupertinoIcons.gear_alt_fill : Icons.settings),
             label: 'Settings',
           ),
         ],
@@ -53,11 +52,6 @@ class _HomePageState extends State<HomePage> {
       margin: EdgeInsets.all(8.0),
       child: UserList(),
     ),
-
-    /// Notifications page
-
-
-    /// Messages page
     ListView.builder(
       reverse: true,
       itemCount: 2,
@@ -72,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 // color: theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: Text(
+              child: const Text(
                 'Hello',
                 // style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
               ),
@@ -88,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               // color: theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Text(
+            child: const Text(
               'Hi!',
               // style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
             ),
@@ -110,9 +104,8 @@ class _HomePageState extends State<HomePage> {
                 // color: theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: Text(
+              child: const Text(
                 'Hello',
-                // style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
               ),
             ),
           );
@@ -126,14 +119,12 @@ class _HomePageState extends State<HomePage> {
               // color: theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Text(
+            child: const Text(
               'Hi!',
-              // style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
             ),
           ),
         );
       },
     ),
-
   ];
 }

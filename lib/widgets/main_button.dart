@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyButton extends StatelessWidget {
+class MainButton extends StatelessWidget {
   final Function()? onTap;
+  final String title;
 
-  const MyButton({super.key, required this.onTap});
+  const MainButton({super.key, required this.onTap, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(25),
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           color: Colors.black,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10.r),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            "Sign In",
+            title,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 16.sp,
             ),
           ),
         ),

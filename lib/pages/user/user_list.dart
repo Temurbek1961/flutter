@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firstapp/pages/user/add_user_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -11,7 +12,7 @@ StreamController<bool> loadingController = StreamController<bool>();
 
 class UserList extends StatefulWidget {
   /// Creates the home page.
-  const UserList({Key? key}) : super(key: key);
+  const UserList({super.key});
 
   @override
   State<UserList> createState() => _UserListState();
@@ -25,7 +26,7 @@ class _UserListState extends State<UserList> {
   @override
   void initState() {
     super.initState();
-    user = getuserData();
+    user = getUserData();
     userDatSource = UserDataSource(user: user);
   }
 
@@ -33,142 +34,137 @@ class _UserListState extends State<UserList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SfDataGrid(
-                allowSwiping: true,
-                startSwipeActionsBuilder: (BuildContext context, DataGridRow row, int rowIndex) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        Platform.isIOS
-                            ? CupertinoPageRoute(
-                                builder: (_) => AddUserScreen(
-                                  id: user[rowIndex].id,
-                                  name: user[rowIndex].name,
-                                  age: user[rowIndex].age,
-                                  role: user[rowIndex].role,
+        child: SizedBox(
+          height: ScreenUtil.defaultSize.height,
+          child: SfDataGrid(
+            allowSwiping: true,
+            startSwipeActionsBuilder: (BuildContext context, DataGridRow row, int rowIndex) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    Platform.isIOS
+                        ? CupertinoPageRoute(
+                            builder: (_) => AddUserScreen(
+                              id: user[rowIndex].id,
+                              name: user[rowIndex].name,
+                              age: user[rowIndex].age.toString(),
+                              role: user[rowIndex].role,
+                            ),
+                          )
+                        : MaterialPageRoute(
+                            builder: (_) => AddUserScreen(
+                              id: user[rowIndex].id,
+                              name: user[rowIndex].name,
+                              age: user[rowIndex].age.toString(),
+                              role: user[rowIndex].role,
+                            ),
+                          ),
+                  );
+                  setState(() {});
+                },
+                child: Container(
+                  color: Colors.yellowAccent,
+                  child: const Center(
+                    child: Icon(Icons.edit),
+                  ),
+                ),
+              );
+            },
+            endSwipeActionsBuilder: (BuildContext context, DataGridRow row, int rowIndex) {
+              return GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Platform.isIOS
+                          ? CupertinoAlertDialog(
+                              title: const Text('Are you sure?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancel'),
                                 ),
-                              )
-                            : MaterialPageRoute(
-                                builder: (_) => AddUserScreen(
-                                  id: user[rowIndex].id,
-                                  name: user[rowIndex].name,
-                                  age: user[rowIndex].age,
-                                  role: user[rowIndex].role,
+                                TextButton(
+                                    onPressed: () {
+                                      userDatSource.dataGridRows.removeAt(rowIndex);
+                                      userDatSource.updateDataGridSource();
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Yes')),
+                              ],
+                            )
+                          : AlertDialog(
+                              icon: const Icon(Icons.warning),
+                              title: const Text('Are you sure?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancel'),
                                 ),
-                              ),
-                      );
-                      setState(() {});
+                                TextButton(
+                                    onPressed: () {
+                                      userDatSource.dataGridRows.removeAt(rowIndex);
+                                      userDatSource.updateDataGridSource();
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Yes')),
+                              ],
+                            );
                     },
-                    child: Container(
-                      color: Colors.yellowAccent,
-                      child: const Center(
-                        child: Icon(Icons.edit),
-                      ),
-                    ),
                   );
                 },
-                endSwipeActionsBuilder: (BuildContext context, DataGridRow row, int rowIndex) {
-                  return GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Platform.isIOS
-                              ? CupertinoAlertDialog(
-                                  title: const Text('Are you sure?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {
-                                          userDatSource.dataGridRows.removeAt(rowIndex);
-                                          userDatSource.updateDataGridSource();
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Yes')),
-                                  ],
-                                )
-                              : AlertDialog(
-                                  icon: const Icon(Icons.warning),
-                                  title: const Text('Are you sure?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {
-                                          userDatSource.dataGridRows.removeAt(rowIndex);
-                                          userDatSource.updateDataGridSource();
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Yes')),
-                                  ],
-                                );
-                        },
-                      );
-                    },
-                    child: Container(
-                      color: Colors.redAccent,
-                      child: const Center(
-                        child: Icon(Icons.delete),
-                      ),
-                    ),
-                  );
-                },
-                source: userDatSource,
-                columnWidthMode: ColumnWidthMode.auto,
-                allowPullToRefresh: true,
-                allowSorting: true,
-                allowFiltering: true,
-                horizontalScrollPhysics: const NeverScrollableScrollPhysics(),
-                columns: <GridColumn>[
-                  GridColumn(
-                    columnName: 'name',
-                    label: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      alignment: Alignment.center,
-                      child: const Text('Name'),
-                    ),
+                child: Container(
+                  color: Colors.redAccent,
+                  child: const Center(
+                    child: Icon(Icons.delete),
                   ),
-                  GridColumn(
-                    columnName: 'age',
-                    label: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Age',
-                      ),
-                    ),
-                  ),
-                  GridColumn(
-                    columnName: 'role',
-                    label: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Role',
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
+              );
+            },
+            source: userDatSource,
+            columnWidthMode: ColumnWidthMode.auto,
+            allowPullToRefresh: true,
+            allowSorting: true,
+            allowFiltering: true,
+            shrinkWrapRows: true,
+            horizontalScrollPhysics: const NeverScrollableScrollPhysics(),
+            columns: <GridColumn>[
+              GridColumn(
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  child: const Text('Name'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-          ],
+              GridColumn(
+                columnName: 'age',
+                label: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Age',
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'role',
+                label: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Role',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -187,7 +183,7 @@ class _UserListState extends State<UserList> {
     );
   }
 
-  List<User> getuserData() {
+  List<User> getUserData() {
     return [
       User(33, 'James', 'Project Lead', '1'),
       User(30, 'Kathryn', 'Manager', '2'),
@@ -247,16 +243,18 @@ class UserDataSource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells: row.getCells().map<Widget>((dataGridCell) {
-        return Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            dataGridCell.value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        );
-      }).toList(),
+      cells: row.getCells().map<Widget>(
+        (dataGridCell) {
+          return Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Text(
+              dataGridCell.value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+        },
+      ).toList(),
     );
   }
 
