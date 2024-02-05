@@ -87,16 +87,21 @@ class _LoginPageState extends State<LoginPage> {
                     //   _phoneController.text.toString(),
                     //   _passwordController.text.toString(),
                     // );
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      Platform.isIOS
-                          ? CupertinoPageRoute(
-                              builder: (_) => const HomePage(),
-                            )
-                          : MaterialPageRoute(
-                              builder: (_) => const HomePage(),
-                            ),
-                      (route) => false,
+                    Future.delayed(
+                      const Duration(seconds: 3),
+                      () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          Platform.isIOS
+                              ? CupertinoPageRoute(
+                                  builder: (_) => const HomePage(),
+                                )
+                              : MaterialPageRoute(
+                                  builder: (_) => const HomePage(),
+                                ),
+                          (route) => false,
+                        );
+                      },
                     );
                   },
                 ),

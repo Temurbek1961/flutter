@@ -30,10 +30,13 @@ class LoginController extends GetxController {
         body: jsonEncode(body),
         headers: headers,
       );
+      print(response.statusCode);
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        if (json['code'] == 0) {
-          var token = json['data']['token'];
+        print(json);
+        print(json['accessToken']);
+        if (json['accessToken'] != 0) {
+          var token = json['accessToken'];
           if (kDebugMode) {
             print(token);
           }
@@ -41,6 +44,15 @@ class LoginController extends GetxController {
           await prefs.setString('token', token);
           phoneController.clear();
           passwordController.clear();
+          showDialog(
+            context: Get.context!,
+            builder: (context) =>
+                SimpleDialog(
+                  title: Text('Sign In Successfully'),
+                  contentPadding: const EdgeInsets.all(20),
+                  children: [Text('Sign In Successfully')],
+                ),
+          );
         } else {
           throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';
         }

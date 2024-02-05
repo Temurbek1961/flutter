@@ -35,9 +35,12 @@ class RegistrationController extends GetxController {
         headers: headers,
       );
       if (response.statusCode == 201) {
+        print(response.body);
         final json = jsonDecode(response.body);
-        if (json['code'] == 0) {
-          var token = json['data']['token'];
+        print('$json----> token');
+        print('${json['accessToken']}----> accessToken');
+        if (json['accessToken'] != 0) {
+          var token = json['accessToken'];
           if (kDebugMode) {
             print(token);
           }
@@ -47,6 +50,16 @@ class RegistrationController extends GetxController {
           phoneController.clear();
           passwordController.clear();
           confirmPasswordController.clear();
+          print(json['message']);
+          showDialog(
+            context: Get.context!,
+            builder: (context) =>
+                SimpleDialog(
+                  title: Text(json['message']),
+                  contentPadding: const EdgeInsets.all(20),
+                  children: [Text(json['message'])],
+                ),
+          );
         } else {
           throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';
         }
@@ -57,12 +70,14 @@ class RegistrationController extends GetxController {
       Get.back();
       showDialog(
         context: Get.context!,
-        builder: (context) => SimpleDialog(
-          title: const Text('error'),
-          contentPadding: const EdgeInsets.all(20),
-          children: [Text(e.toString())],
-        ),
+        builder: (context) =>
+            SimpleDialog(
+              title: const Text('error'),
+              contentPadding: const EdgeInsets.all(20),
+              children: [Text(e.toString())],
+            ),
       );
     }
   }
+
 }
