@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       builder: (context, child) {
         return GetMaterialApp(
-          // debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: false,
           // home: CustomerList(),
           // home: AddCustomerScreen(),
           home: child,
