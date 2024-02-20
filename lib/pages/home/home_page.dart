@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firstapp/pages/user/user_list.dart';
+import 'package:firstapp/pages/smsTemplate/SmsTemplate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,15 +30,16 @@ class _HomePageState extends State<HomePage> {
         destinations: <Widget>[
           NavigationDestination(
             icon: Icon(Platform.isIOS ? CupertinoIcons.person_2_fill : Icons.home_outlined),
-            label: 'USERS',
+            label: 'Users',
           ),
           const NavigationDestination(
             icon: Icon(Icons.notifications_sharp),
-            label: 'SMS',
+            label: 'Sms',
           ),
+
           NavigationDestination(
             icon: Icon(Platform.isIOS ? CupertinoIcons.gear_alt_fill : Icons.settings),
-            label: 'Settings',
+            label: 'SmsTemplates',
           ),
         ],
       ),
@@ -90,41 +92,10 @@ class _HomePageState extends State<HomePage> {
         );
       },
     ),
-    ListView.builder(
-      reverse: true,
-      itemCount: 2,
-      itemBuilder: (BuildContext context, int index) {
-        if (index == 0) {
-          return Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                // color: theme.colorScheme.primary,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: const Text(
-                'Hello',
-              ),
-            ),
-          );
-        }
-        return Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            margin: const EdgeInsets.all(8.0),
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              // color: theme.colorScheme.primary,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: const Text(
-              'Hi!',
-            ),
-          ),
-        );
-      },
+    const Card(
+      shadowColor: Colors.transparent,
+      margin: EdgeInsets.all(8.0),
+      child: SmsTemplate(),
     ),
   ];
 }
