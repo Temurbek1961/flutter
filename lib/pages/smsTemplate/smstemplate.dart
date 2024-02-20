@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:firstapp/pages/smsTemplate/asdf.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -50,15 +54,29 @@ class DataTableExample extends StatelessWidget {
           ),
         ),
       ],
-      rows: const <DataRow>[
+      rows: <DataRow>[
         DataRow(
-          cells: <DataCell>[
-            DataCell(Text('Sarah')),
-            DataCell(Text('19')),
-            DataCell(Text('Student')),
-          ],
-        onLongPress:
-        ),
+            cells: <DataCell>[
+              DataCell(Text('Sarah')),
+              DataCell(Text('19')),
+              DataCell(Text('Student')),
+            ],
+            onSelectChanged: (a) {
+              if (a ?? false) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  Platform.isIOS
+                      ? CupertinoPageRoute(
+                          builder: (_) => const Asdf(),
+                        )
+                      : MaterialPageRoute(
+                          builder: (_) => const Asdf(),
+                        ),
+                  (route) => false,
+                );
+              }
+            },
+            onLongPress: () {}),
         DataRow(
           cells: <DataCell>[
             DataCell(Text('Janine')),

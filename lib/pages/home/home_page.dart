@@ -41,6 +41,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Platform.isIOS ? CupertinoIcons.gear_alt_fill : Icons.settings),
             label: 'SmsTemplates',
           ),
+          NavigationDestination(
+            icon: Icon(Platform.isIOS ? CupertinoIcons.gear_alt_fill : Icons.settings),
+            label: 'SmsTempl',
+          ),
         ],
       ),
       body: screens[currentPageIndex],
@@ -97,5 +101,10 @@ class _HomePageState extends State<HomePage> {
       margin: EdgeInsets.all(8.0),
       child: SmsTemplate(),
     ),
+    Container(
+      width: 200,
+      height: 400,
+      color: Colors.green,
+    )
   ];
 }
