@@ -30,11 +30,8 @@ class LoginController extends GetxController {
         body: jsonEncode(body),
         headers: headers,
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        print(json);
-        print(json['accessToken']);
         if (json['accessToken'] != 0) {
           var token = json['accessToken'];
           if (kDebugMode) {
@@ -47,9 +44,9 @@ class LoginController extends GetxController {
           showDialog(
             context: Get.context!,
             builder: (context) =>
-                SimpleDialog(
+                const SimpleDialog(
                   title: Text('Sign In Successfully'),
-                  contentPadding: const EdgeInsets.all(20),
+                  contentPadding: EdgeInsets.all(20),
                   children: [Text('Sign In Successfully')],
                 ),
           );

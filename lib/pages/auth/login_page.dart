@@ -21,22 +21,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   LoginController loginController = Get.put(LoginController());
-  final TextEditingController _phoneController = TextEditingController();
-
-  final TextEditingController _passwordController = TextEditingController();
-
-  // sign user in method
-  // Future<void> _signIn(String phone, String password) async {
-  //   try {
-  //     http.Response response = await http.post(
-  //       Uri.parse(ApiValues.baseURL + ApiValues.signUp),
-  //       body: {
-  //         'phone': phone,
-  //         'password': password,
-  //       },
-  //     );
-  //   } catch (e) {}
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +67,6 @@ class _LoginPageState extends State<LoginPage> {
                   title: 'Sign In',
                   onTap: () {
                     loginController.loginWithPhone();
-                    // _signIn(
-                    //   _phoneController.text.toString(),
-                    //   _passwordController.text.toString(),
-                    // );
                     Future.delayed(
                       const Duration(seconds: 3),
                       () {
@@ -192,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

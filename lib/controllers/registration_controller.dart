@@ -35,10 +35,7 @@ class RegistrationController extends GetxController {
         headers: headers,
       );
       if (response.statusCode == 201) {
-        print(response.body);
         final json = jsonDecode(response.body);
-        print('$json----> token');
-        print('${json['accessToken']}----> accessToken');
         if (json['accessToken'] != 0) {
           var token = json['accessToken'];
           if (kDebugMode) {
@@ -50,7 +47,9 @@ class RegistrationController extends GetxController {
           phoneController.clear();
           passwordController.clear();
           confirmPasswordController.clear();
-          print(json['message']);
+          if (kDebugMode) {
+            print(json['message']);
+          }
           showDialog(
             context: Get.context!,
             builder: (context) =>

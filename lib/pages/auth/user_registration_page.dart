@@ -1,17 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firstapp/controllers/registration_controller.dart';
-import 'package:firstapp/core/constants/api_values.dart';
 import 'package:firstapp/pages/auth/login_page.dart';
 import 'package:firstapp/widgets/main_button.dart';
 import 'package:firstapp/widgets/main_text_field.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class UserRegistrationPage extends StatefulWidget {
   const UserRegistrationPage({super.key});
@@ -21,64 +17,6 @@ class UserRegistrationPage extends StatefulWidget {
 }
 
 class _UserRegistrationPageState extends State<UserRegistrationPage> {
-  final TextEditingController _firstNameController = TextEditingController();
-
-  final TextEditingController _phoneController = TextEditingController();
-
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
-
-  // sign user in method
-  // Future<void> _signUP(
-  //   BuildContext context,
-  //   String firstName,
-  //   String phone,
-  //   String password,
-  //   String confirmPassword,
-  // ) async {
-  //
-  //   try {
-  //     if (password == confirmPassword) {
-  //
-  //       if (response.statusCode == 200) {
-  //         if (kDebugMode) {
-  //           print('User created');
-  //           print(response.body);
-  //         }
-  //         showSuccessMessage('Creation Success');
-  //
-  //         await Future.delayed(
-  //           const Duration(seconds: 3),
-  //           () {
-  //             Navigator.pushReplacement(
-  //               context,
-  //               Platform.isIOS
-  //                   ? CupertinoPageRoute(
-  //                       builder: (context) => const LoginPage(),
-  //                     )
-  //                   : MaterialPageRoute(
-  //                       builder: (context) => const LoginPage(),
-  //                     ),
-  //               // (route) => false,
-  //             );
-  //           },
-  //         );
-  //       } else {
-  //         if (kDebugMode) {
-  //           print(response.reasonPhrase);
-  //           print('failed');
-  //         }
-  //         showErrorMessage('Creation Failed');
-  //       }
-  //     } else {
-  //       print('confirm password is not allowed');
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print(e.toString());
-  //     }
-  //   }
-  // }
 RegistrationController registrationController = Get.put(RegistrationController());
   void showSuccessMessage(String message) {
     final snackBar = SnackBar(
