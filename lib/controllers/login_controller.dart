@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-
   final TextEditingController phoneController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -23,7 +22,7 @@ class LoginController extends GetxController {
       };
       final Map body = {
         "phone": phoneController.text,
-        "password":passwordController.text,
+        "password": passwordController.text,
       };
       http.Response response = await http.post(
         Uri.parse(ApiValues.baseURL + ApiValues.login),
@@ -43,12 +42,11 @@ class LoginController extends GetxController {
           passwordController.clear();
           showDialog(
             context: Get.context!,
-            builder: (context) =>
-                const SimpleDialog(
-                  title: Text('Sign In Successfully'),
-                  contentPadding: EdgeInsets.all(20),
-                  children: [Text('Sign In Successfully')],
-                ),
+            builder: (context) => const SimpleDialog(
+              title: Text('Sign In Successfully'),
+              contentPadding: EdgeInsets.all(20),
+              children: [Text('Sign In Successfully')],
+            ),
           );
         } else {
           throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';

@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firstapp/pages/user/add_user_screen.dart';
+import 'package:firstapp/datasource/local/fake_data.dart';
+import 'package:firstapp/models/user.dart';
+import 'package:firstapp/pages/user/add_edit_user_screen.dart';
+import 'package:firstapp/widgets/user_data_source.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// The home page of the application which hosts the datagrid.
@@ -19,7 +23,7 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
-  List<User> user = <User>[];
+  List<UserModel> user = <UserModel>[];
 
   late UserDataSource userDatSource;
 
@@ -47,17 +51,12 @@ class _UserListState extends State<UserList> {
                         ? CupertinoPageRoute(
                             builder: (_) => AddUserScreen(
                               id: user[rowIndex].id,
-                              name: user[rowIndex].name,
-                              age: user[rowIndex].age.toString(),
-                              role: user[rowIndex].role,
+                              user: user[rowIndex],
                             ),
                           )
                         : MaterialPageRoute(
                             builder: (_) => AddUserScreen(
                               id: user[rowIndex].id,
-                              name: user[rowIndex].name,
-                              age: user[rowIndex].age.toString(),
-                              role: user[rowIndex].role,
                             ),
                           ),
                   );
@@ -132,33 +131,69 @@ class _UserListState extends State<UserList> {
             allowSorting: true,
             allowFiltering: true,
             shrinkWrapRows: true,
-            horizontalScrollPhysics: const NeverScrollableScrollPhysics(),
+            // horizontalScrollPhysics: const NeverScrollableScrollPhysics(),
             columns: <GridColumn>[
               GridColumn(
-                columnName: 'name',
+                columnName: 'firstName',
                 label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: const Text('Name'),
-                ),
-              ),
-              GridColumn(
-                columnName: 'age',
-                label: Container(
-                  padding: const EdgeInsets.all(16.0),
                   alignment: Alignment.center,
                   child: const Text(
-                    'Age',
+                    'First Name',
+                    softWrap: true,
                   ),
                 ),
               ),
               GridColumn(
-                columnName: 'role',
+                columnName: 'lastName',
                 label: Container(
-                  padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
                   child: const Text(
-                    'Role',
+                    'Last Name',
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'phone',
+                label: Container(
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Phone',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'lang',
+                label: Container(
+                  alignment: Alignment.center,
+                  child: const Text('Lang'),
+                ),
+              ),
+              GridColumn(
+                columnName: 'periodDay',
+                label: Container(
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Period Day',
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'ndybf',
+                label: Container(
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Ndybf',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'timeZone',
+                label: Container(
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Time Zone',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -183,130 +218,43 @@ class _UserListState extends State<UserList> {
     );
   }
 
-  List<User> getUserData() {
-    return [
-      User(33, 'James', 'Project Lead', '1'),
-      User(30, 'Kathryn', 'Manager', '2'),
-      User(18, 'Lara', 'Developer', '3'),
-      User(19, 'Michael', 'Designer', '4'),
-      User(29, 'Martin', 'Developer', '5'),
-      User(32, 'Newberry', 'Developer', '6'),
-      User(17, 'Balnc', 'Developer', '7'),
-      User(25, 'Perry', 'Developer', '8'),
-      User(23, 'Gable', 'Developer', '9'),
-      User(28, 'Grimes', 'Developer', '10')
-    ];
-  }
-}
-
-/// Custom business object class which contains properties to hold the detailed
-/// information about the user which will be rendered in datagrid.
-class User {
-  /// Creates the user class with required details.
-  User(this.age, this.name, this.role, this.id);
-
-  /// user id
-  final String id;
-
-  /// name of an user.
-  final String name;
-
-  /// age of an user.
-  final int age;
-
-  /// Role of an user.
-  final String role;
-}
-
-/// An object to set the user collection data source to the datagrid. This
-/// is used to map the user data to the datagrid widget.
-class UserDataSource extends DataGridSource {
-  UserDataSource({required List<User> user}) {
-    dataGridRows = user
-        .map<DataGridRow>(
-          (dataGridRow) => DataGridRow(
-            cells: [
-              DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-              DataGridCell<int>(columnName: 'age', value: dataGridRow.age),
-              DataGridCell<String>(columnName: 'role', value: dataGridRow.role),
-            ],
-          ),
-        )
-        .toList();
+  Future<void> _deleteData(String id) async {
+    const url = 'https://api.dostonbarber.uz/api/user/delete';
+    final uri = Uri.parse(url);
+    final response = await http.delete(uri);
+    if (response.statusCode == 200) {
+      //   Remove item factory _AddUserScreenState.fromJson(Map<String, dynamic> json) => _$_AddUserScreenStateFromJson(json);list
+      final removedList = user.removeWhere((element) => element.id == id);
+      setState(() {});
+      showSuccessMessage('Completed delete');
+    } else {
+      showErrorMessage('Failed delete');
+    }
   }
 
-  List<DataGridRow> dataGridRows = [];
-
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-      cells: row.getCells().map<Widget>(
-        (dataGridCell) {
-          return Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              dataGridCell.value.toString(),
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        },
-      ).toList(),
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: const TextStyle(color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+      duration: const Duration(seconds: 2),
+      backgroundColor: CupertinoColors.activeGreen,
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  @override
-  int compare(DataGridRow? a, DataGridRow? b, SortColumnDetails sortColumn) {
-    if (sortColumn.name == 'name') {
-      final String? value1 = a?.getCells().firstWhere((element) => element.columnName == sortColumn.name).value.toString();
-      final String? value2 = b?.getCells().firstWhere((element) => element.columnName == sortColumn.name).value.toString();
-
-      if (value1 == null || value2 == null) {
-        return 0;
-      }
-
-      if (sortColumn.sortDirection == DataGridSortDirection.ascending) {
-        return value1.toLowerCase().compareTo(value2.toLowerCase());
-      } else {
-        return value2.toLowerCase().compareTo(value1.toLowerCase());
-      }
-    }
-    if (sortColumn.name == 'age') {
-      final String? value1 = a?.getCells().firstWhere((element) => element.columnName == sortColumn.name).value.toString();
-      final String? value2 = b?.getCells().firstWhere((element) => element.columnName == sortColumn.name).value.toString();
-
-      if (value1 == null || value2 == null) {
-        return 0;
-      }
-
-      if (sortColumn.sortDirection == DataGridSortDirection.ascending) {
-        return value1.toLowerCase().compareTo(value2.toLowerCase());
-      } else {
-        return value2.toLowerCase().compareTo(value1.toLowerCase());
-      }
-    }
-    if (sortColumn.name == 'role') {
-      final String? value1 = a?.getCells().firstWhere((element) => element.columnName == sortColumn.name).value.toString();
-      final String? value2 = b?.getCells().firstWhere((element) => element.columnName == sortColumn.name).value.toString();
-
-      if (value1 == null || value2 == null) {
-        return 0;
-      }
-
-      if (sortColumn.sortDirection == DataGridSortDirection.ascending) {
-        return value1.toLowerCase().compareTo(value2.toLowerCase());
-      } else {
-        return value2.toLowerCase().compareTo(value1.toLowerCase());
-      }
-    }
-
-    return super.compare(a, b, sortColumn);
-  }
-
-  void updateDataGridSource() {
-    notifyListeners();
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: const TextStyle(color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+      duration: const Duration(seconds: 2),
+      backgroundColor: CupertinoColors.destructiveRed,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
