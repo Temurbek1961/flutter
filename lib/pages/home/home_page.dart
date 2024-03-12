@@ -30,11 +30,11 @@ class _HomePageState extends State<HomePage> {
         destinations: <Widget>[
           NavigationDestination(
             icon: Icon(Platform.isIOS ? CupertinoIcons.person_2_fill : Icons.home_outlined),
-            label: 'Users',
+            label: 'User',
           ),
           const NavigationDestination(
             icon: Icon(Icons.notifications_sharp),
-            label: 'Sms',
+            label: 'User History',
           ),
 
           NavigationDestination(
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           ),
           NavigationDestination(
             icon: Icon(Platform.isIOS ? CupertinoIcons.gear_alt_fill : Icons.settings),
-            label: 'SmsTempl',
+            label: 'Settings',
           ),
         ],
       ),
