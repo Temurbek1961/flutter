@@ -6,6 +6,7 @@ import 'package:firstapp/models/user.dart';
 import 'package:firstapp/pages/home/home_page.dart';
 import 'package:firstapp/widgets/main_button.dart';
 import 'package:firstapp/widgets/main_text_field.dart';
+import 'package:firstapp/widgets/user_data_source.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final TextEditingController _ndybfController = TextEditingController();
   final TextEditingController _timeZoneController = TextEditingController();
   List<UserModel> userList = [];
+
   bool isEdit = false;
 
   @override
@@ -184,15 +186,15 @@ class _AddUserScreenState extends State<AddUserScreen> {
     final timeZone = _timeZoneController.text;
 
     int index = users.indexWhere((user) => user.id == id);
-    // final body = {
-    //   "first_name": firstName,
-    //   "last_name": lastName,
-    //   "phone": phone,
-    //   "language": lang,
-    //   "period_day": periodDay,
-    //   "notification_day_before": ndybf,
-    //   "time_zone": timeZone,
-    // };
+    final body = {
+      "first_name": firstName,
+      "last_name": lastName,
+      "phone": phone,
+      "language": lang,
+      "period_day": periodDay,
+      "notification_day_before": ndybf,
+      "time_zone": timeZone,
+    };
     UserModel updatedUser = UserModel().copyWith(
       id: id,
       firstName: firstName,
@@ -212,6 +214,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
       }
       updatedUsers[index] = updatedUser;
       print(updatedUser.toMap());
+
       showSuccessMessage('Updated Success');
       Future.delayed(
         const Duration(seconds: 3),
@@ -223,43 +226,43 @@ class _AddUserScreenState extends State<AddUserScreen> {
       // Foydalanuvchi topilmagan bo'lsa, asl ro'yxatni qaytarish
       showErrorMessage('Updated Failed');
     }
-    //  final uri = 'https://api.dostonbarber.uz/api/user/update/$id';
-    // final url = Uri.parse(uri);
-    //
-    // try {
-    //   final response = await http.put(
-    //     url,
-    //     body: jsonEncode(body),
-    //     headers: {
-    //       HttpHeaders.authorizationHeader: 'Bearer $token',
-    //       HttpHeaders.contentTypeHeader: 'application/json',
-    //       HttpHeaders.acceptHeader: 'application/json',
-    //     },
-    //   );
-    //   if (response.statusCode == 200) {
-    //     if (kDebugMode) {
-    //       print('Updated Success');
-    //       print(response.body);
-    //     }
-    //     showSuccessMessage('Updated Success');
-    //     Future.delayed(
-    //       const Duration(seconds: 3),
-    //           () {
-    //         Navigator.pop(context);
-    //       },
-    //     );
-    //   } else {
-    //     if (kDebugMode) {
-    //       print(response);
-    //       print(response.reasonPhrase);
-    //     }
-    //     showErrorMessage('Updated Failed');
-    //   }
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print(e.toString());
-    //   }
-    // }
+     final uri = 'https://api.dostonbarber.uz/api/user/update/$id';
+    final url = Uri.parse(uri);
+
+    try {
+      final response = await http.put(
+        url,
+        body: jsonEncode(body),
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('Updated Success');
+          print(response.body);
+        }
+        showSuccessMessage('Updated Success');
+        Future.delayed(
+          const Duration(seconds: 3),
+              () {
+            Navigator.pop(context);
+          },
+        );
+      } else {
+        if (kDebugMode) {
+          print(response);
+          print(response.reasonPhrase);
+        }
+        showErrorMessage('Updated Failed');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
   }
 
   void showSuccessMessage(String message) {

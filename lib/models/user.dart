@@ -49,14 +49,14 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> data) {
     return UserModel(
-      id: data['id'] as String,
-      firstName: data['firstName'] as String,
-      lastName: data['lastName'] as String,
-      phone: data['phone'] as String,
-      lang: data['lang'] as String,
-      periodDay: data['periodDay'] as int,
-      ndybf: data['ndybf'] as int,
-      timeZone: data['dateOfBirth'] as String,
+      id: data['id'].toString(),
+      firstName: data['first_name'] ?? '',
+      lastName: data['last_name'] ?? '',
+      phone: data['phone_number'] ?? '',
+      lang: data['language'] ?? '',
+      periodDay: data['period_day'],
+      ndybf: data['notification_day_before'],
+      timeZone: data['time_zone'] ?? '',
     );
   }
 
