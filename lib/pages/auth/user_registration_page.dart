@@ -98,72 +98,6 @@ RegistrationController registrationController = Get.put(RegistrationController()
                 MainButton(
                   title: 'Registration',
                   onTap: () => registrationController.registration(),
-                  // onTap: () async {
-                  //   String firstName = _firstNameController.text;
-                  //   String phone = _phoneController.text;
-                  //   String password = _passwordController.text;
-                  //   String confirmPassword = _confirmPasswordController.text;
-                  //   final Map body = {
-                  //     "first_name": firstName,
-                  //     "phone": phone,
-                  //     "password": password,
-                  //     "confirm_password": confirmPassword,
-                  //   };
-                  //   try {
-                  //     http.Response response = await http.post(
-                  //       Uri.parse(ApiValues.baseURL + ApiValues.signUp),
-                  //       body: jsonEncode(body),
-                  //       headers: {
-                  //         HttpHeaders.contentTypeHeader: 'application/json',
-                  //         HttpHeaders.acceptHeader: 'application/json',
-                  //       },
-                  //     );
-                  //     // print(response.reasonPhrase);
-                  //     if (response.statusCode == 201) {
-                  //       if (kDebugMode) {
-                  //         // print('User created');
-                  //         print(response.body);
-                  //       }
-                  //       showSuccessMessage('Creation Success');
-                  //
-                  //       await Future.delayed(
-                  //         const Duration(seconds: 3),
-                  //         () {
-                  //           Navigator.pushReplacement(
-                  //             context,
-                  //             Platform.isIOS
-                  //                 ? CupertinoPageRoute(
-                  //                     builder: (context) => const LoginPage(),
-                  //                   )
-                  //                 : MaterialPageRoute(
-                  //                     builder: (context) => const LoginPage(),
-                  //                   ),
-                  //             // (route) => false,
-                  //           );
-                  //         },
-                  //       );
-                  //     } else {
-                  //       if (kDebugMode) {
-                  //         print(response.reasonPhrase);
-                  //         print(response.statusCode);
-                  //         // print('failed');
-                  //       }
-                  //       showErrorMessage('Creation Failed');
-                  //     }
-                  //   } catch (e) {
-                  //     if (kDebugMode) {
-                  //       print('fail');
-                  //       print(e.toString());
-                  //     }
-                  //   }
-                  //   // _signUP(
-                  //   //   context,
-                  //   //   _firstNameController.text.toString(),
-                  //   //   _phoneController.text.toString(),
-                  //   //   _passwordController.text.toString(),
-                  //   //   _confirmPasswordController.text.toString(),
-                  //   // );
-                  // },
                 ),
                 SizedBox(height: 50.h),
                 Row(
@@ -175,16 +109,7 @@ RegistrationController registrationController = Get.put(RegistrationController()
                     ),
                     SizedBox(width: 10.w),
                     TextButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        Platform.isIOS
-                            ? CupertinoPageRoute(
-                                builder: (_) => const LoginPage(),
-                              )
-                            : MaterialPageRoute(
-                                builder: (_) => const LoginPage(),
-                              ),
-                      ),
+                      onPressed: () => Get.back(),
                       child: const Text(
                         'Login now',
                         style: TextStyle(
