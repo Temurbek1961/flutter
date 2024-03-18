@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firstapp/pages/user/user_list.dart';
 import 'package:firstapp/pages/smsTemplate/SmsTemplate.dart';
+import 'package:firstapp/pages/settings/settingList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -101,10 +102,10 @@ class _HomePageState extends State<HomePage> {
       margin: EdgeInsets.all(8.0),
       child: SmsTemplate(),
     ),
-    Container(
-      width: 200,
-      height: 400,
-      color: Colors.green,
-    )
+    const Card(
+      shadowColor: Colors.transparent,
+      margin: EdgeInsets.all(8.0),
+      child: SettingList(),
+    ),
   ];
 }

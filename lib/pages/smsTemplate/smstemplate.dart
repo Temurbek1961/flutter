@@ -128,7 +128,7 @@ class SmsTemplate extends StatefulWidget {
     setState(() {
       isLoading = false;
     });
-    const url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
+    const url = 'https://api.dostonbarber.uz/api/sms-templates/index';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if(response.statusCode == 200){

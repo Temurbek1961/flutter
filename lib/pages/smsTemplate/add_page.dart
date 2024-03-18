@@ -72,7 +72,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "description": description,
       "is_completed": false
     };
-    final url = 'https://api.nstack.in/v1/todos/$id';
+    final url = 'https://api.dostonbarber.uz/api/sms-templates/update/$id';
     final uri = Uri.parse(url);
     final response =  await http.put(uri,
         body: jsonEncode(body),
@@ -93,7 +93,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "description": description,
       "is_completed": false
     };
-     final url = 'https://api.nstack.in/v1/todos';
+     final url = 'https://api.dostonbarber.uz/api/sms-templates/create';
      final uri = Uri.parse(url);
      final response =  await http.post(uri,
          body: jsonEncode(body),
