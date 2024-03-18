@@ -18,5 +18,5 @@ class ApiValues {
     "value": dotenv.get('AUTHORIZATIONS_API_KEY_VALUE'),
   };
 
-  ApiValues(this.uid, this.id);
+  ApiValues({this.uid = '', this.id});
 }

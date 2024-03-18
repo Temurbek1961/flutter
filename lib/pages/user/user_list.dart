@@ -36,7 +36,6 @@ class _UserListState extends State<UserList> {
         Map<String, dynamic> body = jsonDecode(response.body);
         List data = body['data'];
           return data.map((json) {
-          // log(json['notification_day_before']);
           return UserModel.fromJson(json);
         }).toList();
       } else {
