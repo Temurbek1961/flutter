@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: EdgeInsets.all(20.r),
           child: Center(
@@ -66,23 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 MainButton(
                   title: 'Sign In',
                   onTap: () {
-                    loginController.loginWithPhone();
-                    Future.delayed(
-                      const Duration(seconds: 3),
-                      () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          Platform.isIOS
-                              ? CupertinoPageRoute(
-                                  builder: (_) => const HomePage(),
-                                )
-                              : MaterialPageRoute(
-                                  builder: (_) => const HomePage(),
-                                ),
-                          (route) => false,
-                        );
-                      },
-                    );
+                    loginController.loginWithPhone().then((value) => null);
                   },
                 ),
                 SizedBox(height: 50.h),
@@ -113,7 +98,18 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showAdaptiveDialog(
+                        context: Get.context!,
+                        builder: (context) =>
+                             AlertDialog.adaptive(
+                              title: const Text('Coming soon'),
+                              contentPadding: const EdgeInsets.all(20),
+                              content: const Text('Google login is not available yet'),
+                              actions: [TextButton(onPressed: () => Get.back(), child: const Text('Ok'))],
+                            ),
+                      );
+                    },
                     focusColor: Colors.green,
                     hoverColor: Colors.red,
                     child: Container(

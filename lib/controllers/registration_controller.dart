@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firstapp/core/constants/api_values.dart';
+import 'package:firstapp/pages/auth/login_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,7 @@ class RegistrationController extends GetxController {
   Future<void> registration() async {
     try {
       var headers = {
+        HttpHeaders.authorizationHeader: 'Bearer ${ApiValues.API_KEY_VALUE['value']}',
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.acceptHeader: 'application/json',
       };
@@ -59,6 +62,23 @@ class RegistrationController extends GetxController {
                   children: [Text(json['message'])],
                 ),
           );
+          Future.delayed(
+            const Duration(seconds: 3),
+                () {
+              Navigator.pushAndRemoveUntil(
+                Get.context!,
+                Platform.isIOS
+                    ? CupertinoPageRoute(
+                  builder: (_) => const LoginPage(),
+                )
+                    : MaterialPageRoute(
+                  builder: (_) => const LoginPage(),
+                ),
+                    (route) => false,
+              );
+            },
+          );
+
         } else {
           throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';
         }
@@ -66,7 +86,6 @@ class RegistrationController extends GetxController {
         throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';
       }
     } catch (e) {
-      Get.back();
       showDialog(
         context: Get.context!,
         builder: (context) =>

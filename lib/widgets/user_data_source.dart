@@ -41,7 +41,7 @@ class UserDataSource extends DataGridSource {
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Text(
-              dataGridCell.value.toString(),
+              '${dataGridCell.value ?? ''}',
               overflow: TextOverflow.ellipsis,
             ),
           );

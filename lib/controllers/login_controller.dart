@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firstapp/core/constants/api_values.dart';
+import 'package:firstapp/pages/home/home_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +20,7 @@ class LoginController extends GetxController {
   Future<void> loginWithPhone() async {
     try {
       var headers = {
+        HttpHeaders.authorizationHeader: 'Bearer ${ApiValues.API_KEY_VALUE['value']}',
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.acceptHeader: 'application/json',
       };
@@ -31,6 +35,7 @@ class LoginController extends GetxController {
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
+        log(response.body.toString());
         if (json['accessToken'] != 0) {
           var token = json['accessToken'];
           if (kDebugMode) {
@@ -48,6 +53,23 @@ class LoginController extends GetxController {
               children: [Text('Sign In Successfully')],
             ),
           );
+          Future.delayed(
+            const Duration(seconds: 3),
+                () {
+              Navigator.pushAndRemoveUntil(
+                Get.context!,
+                Platform.isIOS
+                    ? CupertinoPageRoute(
+                  builder: (_) => const HomePage(),
+                )
+                    : MaterialPageRoute(
+                  builder: (_) => const HomePage(),
+                ),
+                    (route) => false,
+              );
+            },
+          );
+
         } else {
           throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';
         }
@@ -55,7 +77,7 @@ class LoginController extends GetxController {
         throw jsonDecode(response.body)['message'] ?? 'Unknown error occurred';
       }
     } catch (e) {
-      Get.back();
+      // Get.back();
       showDialog(
         context: Get.context!,
         builder: (context) => SimpleDialog(
